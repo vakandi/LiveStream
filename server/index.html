@@ -1,17 +1,48 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Webcam and Microphone Stream</title>
+    <title>Webcam and Microphone Streaming</title>
+    <style>
+      video {
+        width: 100%;
+        height: auto;
+      }
+    </style>
   </head>
   <body>
-    <h1>Webcam Video Stream</h1>
-    <video width="640" height="480" autoplay controls>
-      <source src="{{ url_for('video_feed') }}" type="multipart/x-mixed-replace; boundary=frame">
-    </video>
-    <h1>Microphone Audio Stream</h1>
-    <audio autoplay controls>
-      <source src="{{ url_for('audio_feed') }}" type="audio/x-wav">
-    </audio>
+    <h1>Webcam and Microphone Streaming</h1>
+    <video id="video" autoplay></video>
+    <audio id="audio" autoplay></audio>
+    <br>
+    <button id="start">On</button>
+    <button id="stop">Off</button>
+    <script>
+      const start = document.getElementById("start");
+      const stop = document.getElementById("stop");
+      const video = document.getElementById("video");
+      const audio = document.getElementById("audio");
+
+      start.addEventListener("click", function() {
+        video.srcObject = new MediaStream();
+        audio.srcObject = new MediaStream();
+        navigator.mediaDevices.getUserMedia({
+          video: true,
+          audio: true
+        }).then(stream => {
+          video.srcObject = stream;
+          audio.srcObject = stream;
+        });
+      });
+
+      stop.addEventListener("click", function() {
+        video.srcObject.getTracks().forEach(track => {
+          track.stop();
+        });
+        audio.srcObject.getTracks().forEach(track => {
+          track.stop();
+        });
+      });
+    </script>
   </body>
 </html>
 
