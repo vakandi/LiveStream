@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Webcam and Microphone Stream</title>
+  </head>
+  <body>
+    <h1>Webcam Video Stream</h1>
+    <video width="640" height="480" autoplay controls>
+      <source src="{{ url_for('video_feed') }}" type="multipart/x-mixed-replace; boundary=frame">
+    </video>
+    <h1>Microphone Audio Stream</h1>
+    <audio autoplay controls>
+      <source src="{{ url_for('audio_feed') }}" type="audio/x-wav">
+    </audio>
+  </body>
+</html>
+
